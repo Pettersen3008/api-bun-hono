@@ -1,5 +1,5 @@
 import type { Context } from "hono";
-import TodoRepository from "../repository/todo";
+import TodoRepository from "../repository/todoRepo";
 
 export interface Todo {
   id: number;

@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { commonMiddlewares } from "./utils/middleware";
 import router from "./provider/router";
 import { errorHandler } from "./utils/errorHandler";
-import createHealthzRouter from "./router/healthz";
+import createHealthzRouter from "./router/healthzRouter";
 
 const app = new Hono();
 app.route("/healthz", createHealthzRouter());

@@ -1,8 +1,8 @@
 import { Hono } from "hono";
-import createExampleRouter from "../router/example";
+import createTodoRouter from "../router/todo";
 
-const router = new Hono().basePath('/v1');
+const router = new Hono().basePath('/api/v1');
 
-router.route("/examples", createExampleRouter());
+router.route("/todos", createTodoRouter());
 
 export default router;

@@ -1,13 +1,13 @@
 import { Hono } from "hono";
-import ExampleCoordinator from "../coordinator/examplecoordinator";
+import TodoCoordinator from "../coordinator/todocoordinator";
 
-export default function createExampleRouter(coordinator?: ExampleCoordinator) {
-  const exampleCoordinator = coordinator || new ExampleCoordinator();
+export default function createTodoRouter(coordinator?: TodoCoordinator) {
+  const todoCoordinator = coordinator || new TodoCoordinator();
   const router = new Hono();
 
   router.get("/", async (c) => {
     try {
-      const result = await exampleCoordinator.get(c);
+      const result = await todoCoordinator.get(c);
       return c.json(result);
     } catch (err: any) {
       return c.text(err.message, 500);
@@ -17,18 +17,29 @@ export default function createExampleRouter(coordinator?: ExampleCoordinator) {
   router.get("/:id", async (c) => {
     try {
       const id = Number.parseInt(c.req.param("id"));
-      const example = await exampleCoordinator.getById(c, id);
-      return c.json(example);
+      const todo = await todoCoordinator.getById(c, id);
+      return c.json(todo);
     } catch (err: any) {
       return c.text(err.message, 404);
     }
   });
 
+  router.patch("/:id/completed", async (c) => {
+    try {
+      const id = Number.parseInt(c.req.param("id"))
+      const body = await c.req.json();
+      const todo = await todoCoordinator.update(c, id, body);
+      return c.json(todo)
+    } catch (err: any) {
+      return c.text(err.message, 500);
+    }
+  })
+
   router.post("/", async (c) => {
     try {
       const body = await c.req.json();
-      const newExample = await exampleCoordinator.create(c, body);
-      return c.json(newExample, 201);
+      const newTodo = await todoCoordinator.create(c, body);
+      return c.json(newTodo, 201);
     } catch (err: any) {
       return c.text(err.message, 500);
     }
@@ -38,8 +49,8 @@ export default function createExampleRouter(coordinator?: ExampleCoordinator) {
     try {
       const id = Number.parseInt(c.req.param("id"));
       const body = await c.req.json();
-      const updatedExample = await exampleCoordinator.update(c, id, body);
-      return c.json(updatedExample);
+      const updatedTodo = await todoCoordinator.update(c, id, body);
+      return c.json(updatedTodo);
     } catch (err: any) {
       return c.text(err.message, 500);
     }
@@ -48,13 +59,8 @@ export default function createExampleRouter(coordinator?: ExampleCoordinator) {
   router.delete("/:id", async (c) => {
     try {
       const id = Number.parseInt(c.req.param("id"));
-      
-      const result = await exampleCoordinator.delete(c, id);
-
-      if (result) {
-        return c.json(null, 200);
-      } 
-
+      const deleted = await todoCoordinator.delete(c, id);
+      if (deleted) return c.json(null, 200);
       return c.text("Not Found", 404);
     } catch (err: any) {
       return c.text(err.message, 500);

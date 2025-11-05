@@ -5,7 +5,7 @@ dotenv.config();
 
 const envSchema = z.object({
   HOST: z.string().default("localhost"),
-  PORT: z.coerce.number().min(1000).default(3000).transform((port) => String(port)),
+  PORT: z.coerce.number().min(1000).max(65535).default(3000).transform((port) => String(port)),
   NODE_ENV: z.string(),
 
   LOG_LEVEL: z.string().default("info"),

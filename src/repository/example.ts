@@ -5,7 +5,7 @@ import type { ExampleResponse } from "../coordinator/examplecoordinator";
 
 export default class ExampleRepository {
   async get(context: Context): Promise<ExampleResponse[]> {
-    return db.select().from(schema);
+    return db.select().from(schema)
   }
 
   async getById(context: Context, id: number): Promise<ExampleResponse | undefined> {
@@ -17,7 +17,7 @@ export default class ExampleRepository {
     const data = await db.insert(schema).values({
       title: body.title || "",
       description: body.description || "",
-      moreDetails: body.moreDetails || "",
+      completed: Boolean(body.completed) || false,
     });
 
     return data.oid
@@ -27,7 +27,7 @@ export default class ExampleRepository {
     await db.update(schema).set({
       title: body.title || "",
       description: body.description || "",
-      moreDetails: body.moreDetails || "",
+      completed: body.completed || false,
     }).where(eq(schema.id, id));
   }
 

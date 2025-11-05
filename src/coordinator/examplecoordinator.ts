@@ -5,10 +5,11 @@ export interface ExampleBasicResponse {
   id: number;
   title: string;
   description: string;
+  completed: boolean;
 }
 
 export interface ExampleResponse extends ExampleBasicResponse {
-  moreDetails?: string;
+  
 }
 
 export default class ExampleCoordinator {
@@ -30,7 +31,7 @@ export default class ExampleCoordinator {
     return example;
   }
 
-  async create(context: Context, model: Pick<ExampleResponse, 'id' | 'title' | 'moreDetails'>): Promise<ExampleResponse> {
+  async create(context: Context, model: Pick<ExampleResponse, 'id' | 'title' | 'completed'>): Promise<ExampleResponse> {
     const newId = await this.exampleRepo.create(context, model);
     const example = await this.exampleRepo.getById(context, newId);
     if (!example) throw new Error('Unable to create example');

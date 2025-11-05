@@ -16,7 +16,7 @@ export default function createExampleRouter(coordinator?: ExampleCoordinator) {
 
   router.get("/:id", async (c) => {
     try {
-      const id = parseInt(c.req.param("id"));
+      const id = Number.parseInt(c.req.param("id"));
       const example = await exampleCoordinator.getById(c, id);
       return c.json(example);
     } catch (err: any) {
@@ -36,7 +36,7 @@ export default function createExampleRouter(coordinator?: ExampleCoordinator) {
 
   router.patch("/:id", async (c) => {
     try {
-      const id = parseInt(c.req.param("id"));
+      const id = Number.parseInt(c.req.param("id"));
       const body = await c.req.json();
       const updatedExample = await exampleCoordinator.update(c, id, body);
       return c.json(updatedExample);
@@ -47,13 +47,15 @@ export default function createExampleRouter(coordinator?: ExampleCoordinator) {
 
   router.delete("/:id", async (c) => {
     try {
-      const id = parseInt(c.req.param("id"));
+      const id = Number.parseInt(c.req.param("id"));
+      
       const result = await exampleCoordinator.delete(c, id);
+
       if (result) {
         return c.json(null, 200);
-      } else {
-        return c.text("Not Found", 404);
-      }
+      } 
+
+      return c.text("Not Found", 404);
     } catch (err: any) {
       return c.text(err.message, 500);
     }

@@ -10,8 +10,6 @@ const envSchema = z.object({
 
   LOG_LEVEL: z.string().default("info"),
 
-  JWKS: z.string(),
-
   DATABASE_URL: z.string(),
 });
 

@@ -1,5 +1,8 @@
-import { Context } from "hono";
+import type { Context } from "hono";
 
+/* 
+ * want to improve this with status constants and AppError
+*/
 export function errorHandler(err: Error, c: Context) {
   const errorId = crypto.randomUUID();
   

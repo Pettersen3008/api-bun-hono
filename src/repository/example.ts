@@ -1,7 +1,7 @@
-import { Context } from "hono";
+import type { Context } from "hono";
 import { db, schema } from "../provider/db";
 import { eq } from "drizzle-orm";
-import { ExampleResponse } from "../coordinator/examplecoordinator";
+import type { ExampleResponse } from "../coordinator/examplecoordinator";
 
 export default class ExampleRepository {
   async get(context: Context): Promise<ExampleResponse[]> {

@@ -2,9 +2,6 @@ import { logger } from 'hono/logger';
 import { cors } from 'hono/cors';
 import { secureHeaders } from 'hono/secure-headers';
 import { etag } from 'hono/etag';
-import { jwk } from 'hono/jwk';
-import config from "../provider/config";
-import { licenseHandler } from './licenseHandler';
 
 
 export const commonMiddlewares = [
@@ -19,6 +16,4 @@ export const commonMiddlewares = [
   }),
   secureHeaders(),
   etag(),
-  jwk({ jwks_uri: config.JWKS }),
-  licenseHandler,
 ];
